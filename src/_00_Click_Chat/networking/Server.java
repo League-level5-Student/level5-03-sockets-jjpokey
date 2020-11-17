@@ -50,7 +50,7 @@ public class Server {
 		}
 	}
 	
-	public String getIPAddress() {
+	public static String getIPAddress() {
 		try {
 			return InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
