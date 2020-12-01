@@ -1,49 +1,65 @@
 package _02_Chat_Application;
 
 import java.net.*;
+
+import javax.swing.JOptionPane;
+
 import java.io.*;
 
 public class server1 extends Thread {
 
 	ServerSocket serversocket;
 	private static int port;
+	private ChatApp app;
+	Socket socket;
+	
+	DataInputStream dis;
+	DataOutputStream dos;
+	
 
 	public server1(int port) throws IOException {
 		this.port = port;
+		this.app = app;
 
 	}
 
 	public void start() {
 
-		Boolean b = true;
-
-		while (b == true) {
 			System.out.println("creating serversocket...");
 			try {
+				System.out.println(port);
 				serversocket = new ServerSocket(port, 100);
 
 				System.out.println("Server waiting for a client to connect...");
-				Socket socket = serversocket.accept();
+				socket = serversocket.accept();
 
 				System.out.println("The client has connected!");
 
-				DataInputStream dis = new DataInputStream(socket.getInputStream());
+				dis = new DataInputStream(socket.getInputStream());
 				String message = dis.readUTF();
 				System.out.println(message);
-				DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+				dos = new DataOutputStream(socket.getOutputStream());
 				dos.writeUTF("message");
-				socket.close();
+				
 
 			} catch (SocketTimeoutException s) {
 				System.out.println("ERROR! SocketTimeoutException");
-				b = false;
 				s.printStackTrace();
 			} catch (IOException e) {
 				System.out.println("ERROR! IOExeption");
-				b = false;
 				e.printStackTrace();
 			}
 
+		
+		
+		while (socket.isConnected()) {
+			try {
+				JOptionPane.showMessageDialog(null, dis.readUTF());
+				System.out.println(dis.readUTF());
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Connection Lost");
+				System.exit(0);
+			}
 		}
 	}
 
@@ -61,6 +77,15 @@ public class server1 extends Thread {
 
 	public void sendClick() {
 
+		  try {
+				if (dos != null) {
+					dos.writeUTF(app.textField.getText());
+					dos.flush();
+					app.textField.setText("");
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 	}
 
 	public static void main(String[] args) {

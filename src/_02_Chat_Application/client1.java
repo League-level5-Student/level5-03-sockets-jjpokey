@@ -14,6 +14,9 @@ private String ip;
 private String password;
 private ChatApp app;
 
+DataOutputStream dos;
+DataInputStream dis;
+
 public client1(String ip, int port, String password, ChatApp app) {
 	this.ip = ip;
 	this.port = port;
@@ -25,9 +28,9 @@ public client1(String ip, int port, String password, ChatApp app) {
 
     try {
     	Socket s = new Socket(ip, port);
-    	DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+    	dos = new DataOutputStream(s.getOutputStream());
     	dos.writeUTF("message");
-    	DataInputStream dis = new DataInputStream(s.getInputStream());
+    	dis = new DataInputStream(s.getInputStream());
     	
     	
     	if(app.passwordEnter.equals(password)) {
@@ -41,7 +44,15 @@ public client1(String ip, int port, String password, ChatApp app) {
 			else {
 				JOptionPane.showMessageDialog(null, "Connection terminated... Incorrect Passcode");
 			}
-    	
+    	while (s.isConnected()) {
+			try {
+				JOptionPane.showMessageDialog(null, dis.readUTF());
+				System.out.println(dis.readUTF());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
     	
     	String message = dis.readUTF();
     	System.out.println(message);
@@ -56,6 +67,14 @@ public client1(String ip, int port, String password, ChatApp app) {
    }
    
    public void sendClick() {
-	
+	   try {
+			if (dos != null) {
+				dos.writeUTF(app.textField.getText());
+				dos.flush();
+				app.textField.setText("");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
