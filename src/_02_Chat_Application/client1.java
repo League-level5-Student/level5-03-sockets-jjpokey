@@ -46,8 +46,17 @@ public client1(String ip, int port, String password, ChatApp app) {
 			}
     	while (s.isConnected()) {
 			try {
-				JOptionPane.showMessageDialog(null, dis.readUTF());
-				System.out.println(dis.readUTF());
+				//JOptionPane.showMessageDialog(null, dis.readUTF());
+				
+				
+
+				String clientData = dis.readUTF();
+				
+				String oldText = app.mSent.getText();
+				app.mSent.setText("server: " + clientData);
+				
+				
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

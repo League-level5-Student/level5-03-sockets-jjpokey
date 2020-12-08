@@ -1,18 +1,23 @@
 package _02_Chat_Application;
 
+import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import _00_Click_Chat.networking.Server;
 
 public class ChatApp extends JFrame implements KeyListener {
 	JTextArea textField = new JTextArea();
+	JLabel mSent = new JLabel();
+	JPanel panel = new JPanel();
 
 	server1 server;
 	client1 client;
@@ -27,13 +32,27 @@ public class ChatApp extends JFrame implements KeyListener {
 	}
 
 	public ChatApp() {
-
+		
 		int response = JOptionPane.showConfirmDialog(null, "Would you like to host a connection?", "Chat App",
 				JOptionPane.YES_NO_OPTION);
+		
+		setPreferredSize(new Dimension(450, 300));
+		panel.add(textField);
+		panel.add(mSent);
+		mSent.setPreferredSize(new Dimension(400, 260));
+		textField.setPreferredSize(new Dimension(400, 40));
+		mSent.setText("test");
+		mSent.setVisible(true);
+		setVisible(true);
+		pack();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		add(panel);
+		
 		if (response == JOptionPane.YES_OPTION) {
 			isServer = true;
 			try {
-				server = new server1(port);
+				server = new server1(port, this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -44,10 +63,6 @@ public class ChatApp extends JFrame implements KeyListener {
 			textField.addKeyListener(this);
 			System.out.println(password);
 
-			add(textField);
-			setVisible(true);
-			setSize(400, 300);
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			server.start();
 
 		} else {
@@ -55,6 +70,8 @@ public class ChatApp extends JFrame implements KeyListener {
 			setTitle("CLIENT");
 			String ipStr = server.getIPAddress();
 
+			
+			
 			System.out.println(ipStr);
 
 			passwordEnter = JOptionPane.showInputDialog("Please enter server password...");
