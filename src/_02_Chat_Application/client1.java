@@ -33,17 +33,14 @@ public client1(String ip, int port, String password, ChatApp app) {
     	dis = new DataInputStream(s.getInputStream());
     	
     	
-    	if(app.passwordEnter.equals(password)) {
-			app.add(app.textField);
+   // 	if() {
 			app.setVisible(true);
-			app.setSize(400, 300);
-			app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			System.out.println("Password Is Correct");
 			
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "Connection terminated... Incorrect Passcode");
-			}
+		//	}
+		//	else {
+				//JOptionPane.showMessageDialog(null, "Connection terminated... Incorrect Passcode");
+			//}
     	while (s.isConnected()) {
 			try {
 				//JOptionPane.showMessageDialog(null, dis.readUTF());
@@ -53,8 +50,10 @@ public client1(String ip, int port, String password, ChatApp app) {
 				String clientData = dis.readUTF();
 				
 				String oldText = app.mSent.getText();
-				app.mSent.setText("server: " + clientData);
-				
+				String text = "";
+				text += app.area.getText() + "<blockquote> server: " + clientData + "</blockquote>";
+				app.area.setText("<html>" + text + "</html>");
+				System.out.println("Client: " + clientData);
 				
 				
 			} catch (Exception e) {

@@ -58,8 +58,12 @@ public class server1 extends Thread {
 				
 				String clientData = dis.readUTF();
 				
+
 				String oldText = app.mSent.getText();
-				app.mSent.setText("client: " + clientData);
+				String text = "<html>";
+				text += app.area.getText() + "<blockquote> server: " + clientData + "</blockquote>";
+				app.area.setText(text + "</html>");
+				System.out.println("Server: " + clientData);
 				
 				
 			} catch (Exception e) {

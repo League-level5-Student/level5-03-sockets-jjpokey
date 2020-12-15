@@ -1,16 +1,21 @@
 package _02_Chat_Application;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 
 import _00_Click_Chat.networking.Server;
 
@@ -18,6 +23,9 @@ public class ChatApp extends JFrame implements KeyListener {
 	JTextArea textField = new JTextArea();
 	JLabel mSent = new JLabel();
 	JPanel panel = new JPanel();
+	JTextPane area = new JTextPane();
+	JScrollPane scroll = new JScrollPane(area, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+			ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 	server1 server;
 	client1 client;
@@ -43,6 +51,9 @@ public class ChatApp extends JFrame implements KeyListener {
 		textField.setPreferredSize(new Dimension(400, 40));
 		mSent.setText("test");
 		mSent.setVisible(true);
+		scroll.setPreferredSize(new Dimension(450, 250));
+		textField.setBorder(BorderFactory.createLineBorder(Color.PINK));
+		panel.add(scroll);
 		setVisible(true);
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,7 +80,7 @@ public class ChatApp extends JFrame implements KeyListener {
 			isServer = false;
 			setTitle("CLIENT");
 			String ipStr = server.getIPAddress();
-
+			setVisible(false);
 			
 			
 			System.out.println(ipStr);
