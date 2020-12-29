@@ -59,11 +59,12 @@ public class server1 extends Thread {
 				String clientData = dis.readUTF();
 				
 
-				String oldText = app.mSent.getText();
-				String text = "<html>";
-				text += app.area.getText() + "<blockquote> server: " + clientData + "</blockquote>";
-				app.area.setText(text + "</html>");
-				System.out.println("Server: " + clientData);
+				//String oldText = app.area.getText();
+				//String text = "<html>";
+				//text += app.area.getText() + "<blockquote> server: " + clientData + "</blockquote>";
+				//app.area.setText(text + "</html>");
+				//System.out.println("Server: " + clientData);
+				app.addMessageToWindow(true, clientData);
 				
 				
 			} catch (Exception e) {
@@ -90,6 +91,8 @@ public class server1 extends Thread {
 		  try {
 				if (dos != null) {
 					dos.writeUTF(app.textField.getText());
+					System.out.println(app.area);
+					app.addMessageToWindow(false, app.textField.getText());
 					dos.flush();
 					app.textField.setText("");
 					

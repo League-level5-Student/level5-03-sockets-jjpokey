@@ -31,7 +31,7 @@ public client1(String ip, int port, String password, ChatApp app) {
     	dos = new DataOutputStream(s.getOutputStream());
     	dos.writeUTF("message");
     	dis = new DataInputStream(s.getInputStream());
-    	
+    	dos.writeUTF("Servers Connected!");
     	
    // 	if() {
 			app.setVisible(true);
@@ -49,11 +49,12 @@ public client1(String ip, int port, String password, ChatApp app) {
 
 				String clientData = dis.readUTF();
 				
-				String oldText = app.mSent.getText();
-				String text = "";
-				text += app.area.getText() + "<blockquote> server: " + clientData + "</blockquote>";
-				app.area.setText("<html>" + text + "</html>");
-				System.out.println("Client: " + clientData);
+				//String oldText = app.area.getText();
+				//String text = "<html>";
+				//text += app.area.getText() + "<blockquote> server: " + clientData + "</blockquote>";
+				//app.area.setText(text + "</html>");
+				//System.out.println("Server: " + clientData);
+				app.addMessageToWindow(true, clientData);
 				
 				
 			} catch (Exception e) {
@@ -78,6 +79,7 @@ public client1(String ip, int port, String password, ChatApp app) {
 	   try {
 			if (dos != null) {
 				dos.writeUTF(app.textField.getText());
+				app.addMessageToWindow(false, app.textField.getText());
 				dos.flush();
 				app.textField.setText("");
 			}
