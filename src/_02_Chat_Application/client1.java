@@ -11,16 +11,16 @@ public class client1 {
 	
 private int port;
 private String ip;
-private String password;
+private String passwordEnter;
 private ChatApp app;
 
 DataOutputStream dos;
 DataInputStream dis;
 
-public client1(String ip, int port, String password, ChatApp app) {
+public client1(String ip, int port, String passwordEnter, ChatApp app) {
 	this.ip = ip;
 	this.port = port;
-	this.password = password;
+	this.passwordEnter = passwordEnter;
 	this.app = app;
 }
 
@@ -31,7 +31,7 @@ public client1(String ip, int port, String password, ChatApp app) {
     	dos = new DataOutputStream(s.getOutputStream());
     	dos.writeUTF("message");
     	dis = new DataInputStream(s.getInputStream());
-    	dos.writeUTF("Servers Connected!");
+    	dos.writeUTF(passwordEnter + "Servers Connected!");
     	
    // 	if() {
 			app.setVisible(true);
@@ -47,14 +47,11 @@ public client1(String ip, int port, String password, ChatApp app) {
 				
 				
 
-				String clientData = dis.readUTF();
+	String clientData = dis.readUTF();
 				
-				//String oldText = app.area.getText();
-				//String text = "<html>";
-				//text += app.area.getText() + "<blockquote> server: " + clientData + "</blockquote>";
-				//app.area.setText(text + "</html>");
-				//System.out.println("Server: " + clientData);
-				app.addMessageToWindow(true, clientData);
+			
+					app.addMessageToWindow(true, clientData);
+
 				
 				
 			} catch (Exception e) {
@@ -68,6 +65,7 @@ public client1(String ip, int port, String password, ChatApp app) {
     	s.close();
     	
     } catch(IOException e) {
+    	JOptionPane.showMessageDialog(null, "Connection Lost");
     	System.out.println("ERROR");
     	e.printStackTrace();
     }
@@ -78,7 +76,7 @@ public client1(String ip, int port, String password, ChatApp app) {
    public void sendClick() {
 	   try {
 			if (dos != null) {
-				dos.writeUTF(app.textField.getText());
+				dos.writeUTF(passwordEnter + app.textField.getText());
 				app.addMessageToWindow(false, app.textField.getText());
 				dos.flush();
 				app.textField.setText("");

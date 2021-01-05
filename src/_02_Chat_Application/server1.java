@@ -15,6 +15,8 @@ public class server1 extends Thread {
 	
 	DataInputStream dis;
 	DataOutputStream dos;
+	Boolean correctPassword = false;
+	
 	
 
 	public server1(int port, ChatApp app) throws IOException {
@@ -58,13 +60,25 @@ public class server1 extends Thread {
 				
 				String clientData = dis.readUTF();
 				
+				if(clientData.startsWith(app.password)) {
+					correctPassword = true;		
+					
+					clientData = clientData.substring(app.password.length());
+					app.addMessageToWindow(true, clientData);
+					
+				}
+				else {
+					correctPassword = false;
+					
+						dos.flush();
+						dos.writeUTF("incorrect password, message not sent");
+				}
+					
+				
+				
+				
+					
 
-				//String oldText = app.area.getText();
-				//String text = "<html>";
-				//text += app.area.getText() + "<blockquote> server: " + clientData + "</blockquote>";
-				//app.area.setText(text + "</html>");
-				//System.out.println("Server: " + clientData);
-				app.addMessageToWindow(true, clientData);
 				
 				
 			} catch (Exception e) {
@@ -90,12 +104,14 @@ public class server1 extends Thread {
 
 		  try {
 				if (dos != null) {
+					if(correctPassword) {
 					dos.writeUTF(app.textField.getText());
 					System.out.println(app.area);
 					app.addMessageToWindow(false, app.textField.getText());
 					dos.flush();
 					app.textField.setText("");
 					
+				}
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
