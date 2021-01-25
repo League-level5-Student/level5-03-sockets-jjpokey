@@ -74,8 +74,8 @@ public class ChatApp extends JFrame implements KeyListener {
 			}
 			setTitle("SERVER");
 			password = JOptionPane.showInputDialog("Please create a server passcode");
-			//JOptionPane.showMessageDialog(null,
-				//	"Server started at: " + Server.getIPAddress() + "\nPort: " + server.getPort());
+			JOptionPane.showMessageDialog(null,
+					"Server started at: " + Server.getIPAddress() + "\nPort: " + server.getPort()); //IP
 			textField.addKeyListener(this);
 			System.out.println(password);
 
